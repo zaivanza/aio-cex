@@ -1,6 +1,6 @@
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=AIO-cex)](https://git.io/typing-svg)
 
-Скрипт по работе с биржами binance, okx, bybit, kucoin, huobi. Есть 2 модуля :
+Скрипт по работе с биржами binance, okx, bybit, kucoin, huobi. Написан на асинке (многопотоки). Есть 2 модуля :
 1. get balance : проверяет баланс определенной монеты на всех биржах, вывод результата в терминал и csv файл.
 2. make trade : делает трейд по заданным настройкам.
 
