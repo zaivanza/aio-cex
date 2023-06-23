@@ -25,15 +25,15 @@ def value_trade():
     amount          = 15 # сколько продаем token_sell, чтобы купить token_buy
     all_balance     = True # True / False. True если хочешь продать все монеты token_sell. если False, тогда берется значение amount
 
-    price           = 1.05 # какую цену ставим. 
+    price           = 1.05 # какую цену ставим (работает при is_market_price = False)
     is_market_price = True # True / False. True если покупаем / продаем по маркету, False если берем цену из price
-    spread          = 1 # на какой процент цена будет отличаться от маркета (выше / ниже в зависимости от TYPE_SIDE)
+    spread          = 1 # на какой процент цена будет отличаться от маркета (работает при is_market_price = True)
     min_price       = 1 # если цена ниже этой, продавать не будет
 
-    breaker         = False # True / False. True если хочешь пройтись по аккаунтам 1 раз, False если хочешь смотреть баланс и продавать бесконечно. При token_buy = USDT, режим breaker всегда = False
+    breaker         = False # True / False. True если хочешь пройтись по аккаунтам 1 раз, False если хочешь смотреть баланс и продавать бесконечно. При token_sell = USDT, режим breaker всегда = True
 
     min_sell        = 5 # если кол-во token_sell будет меньше этого числа, свап не произойдет. советую ставить > 0
-    cancel_order    = True # True / False. если True, тогда после не имполнении ордера, он будет отменен. нужно при большой волатильности
+    cancel_order    = True # True / False. если True, тогда при не исполнении ордера, он будет отменен через cl_order_time секунд. нужно при большой волатильности
     cl_order_time   = 3 # через сколько секунд ордер будет отменен (3 = дефолт)
 
     return token_sell, token_buy, amount, all_balance, price, is_market_price, spread, min_price, breaker, min_sell, cancel_order, cl_order_time
