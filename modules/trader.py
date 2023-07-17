@@ -44,7 +44,6 @@ async def trade(ccxt_account, account, token_sell, token_buy, amount, all_balanc
 
             else : price_to_order = price
 
-
             if price_to_order >= min_price:
                 
                 if balance_of_coin >= min_sell:
@@ -145,20 +144,21 @@ async def main(data_file_name, token_sell, token_buy, amount, all_balance, price
                 task = asyncio.create_task(trade(ccxt_account, account, token_sell, token_buy, amount, all_balance, price, is_market_price, spread, min_price, breaker, min_sell, cancel_order, cl_order_time))
                 tasks.append(task)
 
-    task = asyncio.create_task(okx(data_file_name=data_file_name,  
-                                   token_sell=token_sell, 
-                                   token_buy=token_buy, 
-                                   amount=amount, 
-                                   all_balance=all_balance, 
-                                   price=price, 
-                                   is_market_price=is_market_price, 
-                                   spread=spread, 
-                                   min_price=min_price, 
-                                   breaker=breaker, 
-                                   min_sell=min_sell, 
-                                   cancel_order=cancel_order, 
-                                   cl_order_time=cl_order_time, 
-                                   module=1))
+    if 'OKX' in exchanges:
+        task = asyncio.create_task(okx(data_file_name=data_file_name,  
+                                    token_sell=token_sell, 
+                                    token_buy=token_buy, 
+                                    amount=amount, 
+                                    all_balance=all_balance, 
+                                    price=price, 
+                                    is_market_price=is_market_price, 
+                                    spread=spread, 
+                                    min_price=min_price, 
+                                    breaker=breaker, 
+                                    min_sell=min_sell, 
+                                    cancel_order=cancel_order, 
+                                    cl_order_time=cl_order_time, 
+                                    module=1))
     tasks.append(task)
         
     await asyncio.gather(*tasks)

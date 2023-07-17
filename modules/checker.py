@@ -67,9 +67,9 @@ def send_results():
 
     cprint(f'Результат записан в {file_name}\n', 'white')
  
-async def main(data_file_name, token, exchanges): 
+async def main(data_file_name, token, check_account, exchanges): 
 
-    accounts = get_ccxt_accounts(data_file_name)
+    accounts = get_ccxt_accounts(data_file_name, check_account)
 
     tasks = []
 
@@ -84,7 +84,9 @@ async def main(data_file_name, token, exchanges):
                 task = asyncio.create_task(get_balance(ccxt_account, account, token))
                 tasks.append(task)
 
-    task = asyncio.create_task(okx(data_file_name=data_file_name, balances=balances, module=0, balance_token=token))
+    if 'OKX' in exchanges:
+        task = asyncio.create_task(okx(data_file_name=data_file_name, balances=balances, module=0, balance_token=token))
+        
     tasks.append(task)
 
     await asyncio.gather(*tasks)

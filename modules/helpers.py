@@ -33,14 +33,14 @@ def get_csv_data(data_file_name):
 
     return data
 
-def get_account(exchange, account, api_key, api_secret, password, proxy):
+def get_account(exchange, api_key, api_secret, password, proxy, account_type):
 
     headers = {
         'apiKey': api_key,
         'secret': api_secret,
         'enableRateLimit': True,
         'options': {
-            'defaultType': 'spot'
+            'defaultType': account_type # spot / funding
         }
     }
 
@@ -48,16 +48,13 @@ def get_account(exchange, account, api_key, api_secret, password, proxy):
         headers['password'] = password
 
     if proxy not in ['', ' ']:
-        headers['proxies'] = {
-            'http': proxy,  
-            'https': proxy,  
-        }
+        headers['aiohttp_proxy'] = proxy
 
     ccxt_account = ccxt.__dict__[exchange](headers)
 
     return ccxt_account
 
-def get_ccxt_accounts(data_file_name):
+def get_ccxt_accounts(data_file_name, account_type='spot'):
 
     exchanges_data = get_csv_data(data_file_name)
 
@@ -71,7 +68,7 @@ def get_ccxt_accounts(data_file_name):
         password    = data['password']
         proxy       = data['proxy']
 
-        ccxt_account = get_account(exchange, account, api_key, api_secret, password, proxy)
+        ccxt_account = get_account(exchange, api_key, api_secret, password, proxy, account_type)
         accounts.append({account:ccxt_account})
 
     return accounts
