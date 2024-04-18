@@ -1,5 +1,6 @@
 data.csv
 balances.csv
+deposit_addresses.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

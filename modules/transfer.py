@@ -2,13 +2,13 @@ from termcolor import cprint
 from loguru import logger
 import asyncio
 from .helpers import get_ccxt_accounts
-from setting import DATA_FILE_NAME, EXCHANGES, ValueTransfer
+from setting import DATA_FILE_NAME, ValueTransfer
 
 class Transfer:
 
     def __init__(self) -> None:
         self.accounts = get_ccxt_accounts(DATA_FILE_NAME)
-        self.exchanges = EXCHANGES
+        self.exchange = ValueTransfer.exchange
         self.token = ValueTransfer.token
         self.from_account = ValueTransfer.from_account
         self.to_account = ValueTransfer.to_account
@@ -39,7 +39,7 @@ class Transfer:
         tasks = []
         for items in self.accounts:
             for account, ccxt_account in items.items():
-                if (ccxt_account.name in self.exchanges and ccxt_account.name in ['Bybit']):
+                if (ccxt_account.name == self.exchange and ccxt_account.name in ['Bybit']):
                     cprint(f'{ccxt_account.name} - {account}', 'blue')
                     task = asyncio.create_task(self.get_transfer(ccxt_account, account))
                     tasks.append(task)

@@ -1,37 +1,43 @@
-from modules.checker import GetBalance
+import asyncio
+from termcolor import cprint
+import inquirer
+
+from modules.checker import GetBalance, GetDepositAddress
 from modules.trader import Trader
 from modules.transfer import Transfer
 from modules.withdraw import Withdraw
 from modules.titles import TITLE, TITLE_COLOR
-import asyncio
-from termcolor import cprint
 
 if __name__ == "__main__":
-
     cprint(TITLE, TITLE_COLOR)
-    cprint(f'\nsubscribe to us : https://t.me/hodlmodeth', TITLE_COLOR)
+    cprint('\nsubscribe to us : https://t.me/hodlmodeth', TITLE_COLOR)
 
-    MODULE = int(input('''
-MODULE:
-1. get balance
-2. make trade
-3. transfer
-4. withdraw
+    questions = [
+        inquirer.List('module',
+                      message="Выберите модуль (1 / 5)",
+                      choices=[
+                          ('get balance', 1),
+                          ('make trade', 2),
+                          ('transfer', 3),
+                          ('withdraw', 4),
+                          ('get_deposit_address', 5)
+                      ],
+                      carousel=True)
+    ]
 
-Выберите модуль (1 / 4) : '''))
-    
+    answers = inquirer.prompt(questions)
+    MODULE = answers['module']
+
     functions = {
-        1: GetBalance, 
+        1: GetBalance,
         2: Trader,
         3: Transfer,
         4: Withdraw,
+        5: GetDepositAddress
     }
 
-    if MODULE in [1, 2, 3, 4]:
+    if MODULE in functions:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(functions[MODULE]().main())
     else:
         cprint('\n>>> Такого модуля нет <<<', 'red')
-
-
-

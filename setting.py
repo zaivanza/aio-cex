@@ -1,13 +1,3 @@
-
-# C какими биржами работаем. Закомментируй биржу, если хочешь ее отключить.
-EXCHANGES = [
-    # "Binance", 
-    # "KuCoin", 
-    "Bybit", 
-    # "Huobi",
-    # "OKX",
-]
-
 # Путь к файлу с данными от бирж.
 DATA_FILE_NAME = 'data.csv' 
 
@@ -18,6 +8,7 @@ class ValueGetBalance:
     Доступные биржи: Bybit, Binance, KuCoin, Huobi, OKX.
     """
 
+    exchange = "Bybit"
     token   = 'USDT' # баланс какого токена хочешь получить
     account = 'funding' # funding / spot
     
@@ -27,6 +18,8 @@ class ValueTrade:
     Покупка/продажа монеты.
     Доступные биржи: Bybit, Binance, KuCoin, Huobi, OKX.
     """
+
+    exchange        = "Bybit"
 
     token_sell      = '5IRE' # какой токен продаем
     token_buy       = 'USDT' # какой токен покупаем
@@ -53,9 +46,10 @@ class ValueTransfer:
     Не забудь отключить остальные биржи в EXCHANGES.
     '''
 
-    token           = 'USDT' # какой токен хочешь сделать трансфер
-    from_account    = 'funding' # funding / spot
-    to_account      = 'spot' # funding / spot
+    exchange = "Bybit"
+    token = 'USDT' # какой токен хочешь сделать трансфер
+    from_account = 'funding' # funding / spot
+    to_account = 'spot' # funding / spot
 
 class ValueWithdraw:
 
@@ -65,6 +59,8 @@ class ValueWithdraw:
     Не забудь отключить остальные биржи в EXCHANGES.
     '''
 
+    exchange = "Bybit"
+
     symbol = "USDT" # какую монету выводим
     chain = "BEP20" # в какой сети монету выводим
     amounts = [0, 0] # от скольки до скольки выводим
@@ -73,3 +69,14 @@ class ValueWithdraw:
     min_withdraw = 3 # если баланс меньше этого значения, выводить не будет с аккаунта не будет
 
     recipient = "0x_your_address_wallet" # получатель, куда все выводим
+
+class ValueGetDepositAddress:
+
+    """
+    Просмотр адреса депозита монеты.
+    Доступные биржи: Bybit.
+    """
+
+    exchange = "Bybit"
+    chain = "BEP20"
+    token = "USDT"

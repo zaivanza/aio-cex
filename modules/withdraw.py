@@ -3,7 +3,7 @@ from loguru import logger
 import asyncio
 import random
 from .helpers import get_ccxt_accounts, round_to
-from setting import ValueWithdraw, DATA_FILE_NAME, EXCHANGES
+from setting import ValueWithdraw, DATA_FILE_NAME
 
 class Withdraw:
 
@@ -15,8 +15,8 @@ class Withdraw:
         self.fee = ValueWithdraw.fee
         self.min_withdraw = ValueWithdraw.min_withdraw
         self.recipient = ValueWithdraw.recipient
+        self.exchange = ValueWithdraw.exchange
         self.accounts = get_ccxt_accounts(DATA_FILE_NAME)
-        self.exchanges = EXCHANGES
 
     async def withdraw_token(self, ccxt_account, account):
 
@@ -59,7 +59,7 @@ class Withdraw:
         tasks = []
         for items in self.accounts:
             for account, ccxt_account in items.items():
-                if ccxt_account.name != "OKX":
+                if (ccxt_account.name == self.exchange and ccxt_account.name != "OKX"):
                     cprint(f'{ccxt_account.name} - {account}', 'blue')
                     task = asyncio.create_task(self.withdraw_token(ccxt_account, account))
                     tasks.append(task)

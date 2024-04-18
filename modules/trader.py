@@ -4,13 +4,13 @@ from loguru import logger
 from .helpers import round_to, get_ccxt_accounts
 from .okx import OKX
 
-from setting import DATA_FILE_NAME, EXCHANGES, ValueTrade
+from setting import DATA_FILE_NAME, ValueTrade
 
 class Trader():
 
     def __init__(self) -> None:
         self.accounts = get_ccxt_accounts(DATA_FILE_NAME)
-        self.exchanges = EXCHANGES
+        self.exchange = ValueTrade.exchange
         self.token_sell = ValueTrade.token_sell
         self.token_buy = ValueTrade.token_buy
         self.amount = ValueTrade.amount
@@ -142,12 +142,12 @@ class Trader():
         tasks = []
         for items in self.accounts:
             for account, ccxt_account in items.items():
-                if (ccxt_account.name in self.exchanges and ccxt_account.name != 'OKX'):
+                if (ccxt_account.name == self.exchange and ccxt_account.name != 'OKX'):
                     cprint(f'{ccxt_account.name} - {account}', 'blue')
                     task = asyncio.create_task(self.make_trade(ccxt_account, account))
                     tasks.append(task)
 
-        if 'OKX' in self.exchanges:
+        if self.exchanges == 'OKX':
             task = asyncio.create_task(OKX().main(data_file_name=DATA_FILE_NAME,  
                                         token_sell=self.token_sell, 
                                         token_buy=self.token_buy, 
