@@ -7,11 +7,11 @@ from setting import DATA_FILE_NAME, ValueTransfer
 class Transfer:
 
     def __init__(self) -> None:
-        self.accounts = get_ccxt_accounts(DATA_FILE_NAME)
         self.exchange = ValueTransfer.exchange
         self.token = ValueTransfer.token
         self.from_account = ValueTransfer.from_account
         self.to_account = ValueTransfer.to_account
+        self.accounts = get_ccxt_accounts(DATA_FILE_NAME, self.from_account)
 
     async def get_transfer(self, ccxt_account, account):
         try:

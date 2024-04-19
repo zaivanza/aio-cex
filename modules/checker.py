@@ -10,10 +10,10 @@ from setting import ValueGetBalance, ValueGetDepositAddress, DATA_FILE_NAME
 class GetBalance():
 
     def __init__(self) -> None:
-        self.accounts = get_ccxt_accounts(DATA_FILE_NAME)
         self.exchange = ValueGetBalance.exchange
         self.token = ValueGetBalance.token
         self.type_account = ValueGetBalance.account
+        self.accounts = get_ccxt_accounts(DATA_FILE_NAME, self.type_account)
         self.balances = []
 
     async def get_balance(self, ccxt_account, account):

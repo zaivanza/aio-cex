@@ -5,7 +5,7 @@ async-timeout==4.0.2
 attrs==23.1.0
 bitarray==2.7.3
 blessed==1.20.0
-ccxt==3.0.78
+ccxt==4.3.1
 certifi==2022.12.7
 cffi==1.15.1
 charset-normalizer==3.1.0
@@ -46,6 +46,7 @@ tabulate==0.9.0
 termcolor==2.3.0
 toolz==0.12.0
 tqdm==4.65.0
+typing_extensions==4.11.0
 urllib3==1.26.15
 wcwidth==0.2.13
 web3==6.2.0
