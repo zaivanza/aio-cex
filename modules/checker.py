@@ -19,12 +19,21 @@ class GetBalance():
     async def get_balance(self, ccxt_account, account):
         '''смотрим баланс всех монет на бирже'''
 
-        try:
-            balance = await ccxt_account.fetch_balance()
-            balance_of_coin = balance[self.token]['free']
-        except KeyError as error: # kucoin, bybit
-            balance_of_coin = 0
-        except Exception as error:
+        attempt = 1
+        max_attempt = 3
+        while attempt <= max_attempt:
+            try:
+                balance = await ccxt_account.fetch_balance()
+                balance_of_coin = balance[self.token]['free']
+                break
+            except KeyError as error: # kucoin, bybit
+                balance_of_coin = 0
+                break
+            except Exception as error:
+                logger.info(f'[{attempt}/{max_attempt}] {ccxt_account.name} - {account} | error : {error}, try again...')
+                await asyncio.sleep(1)
+            attempt += 1
+        else:
             logger.error(f'{ccxt_account.name} - {account} | error : {error}')
             balance_of_coin = 0
 
